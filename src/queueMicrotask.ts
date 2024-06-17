@@ -1,4 +1,4 @@
-import { isBrowser } from "./utils/env";
+import { isBrowser } from "./env";
 
 type Microtask = () => void;
 
@@ -22,8 +22,6 @@ function createQueueMicrotaskViaMutationObserver(): (
 
   return (microtask: Microtask) => {
     microtaskQueue.push(microtask);
-
-    // MutationObserver is a fallback for when native microtasks are unavailable
     node.data = String(++mutationCounter % 2);
   };
 }
@@ -36,9 +34,6 @@ function createQueueMicrotaskViaMutationObserver(): (
  */
 export function createQueueMicrotask(): (microtask: Microtask) => void {
   if (isBrowser && typeof queueMicrotask === "function") {
-    // The microtask is a short function which will run after the current task has completed its work
-    // and when there is no other code waiting to be run before control of the execution context is returned
-    // to the browser's event loop.
     return queueMicrotask.bind(window);
   } else if (
     typeof Promise === "function" &&

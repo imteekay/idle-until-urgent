@@ -1,7 +1,7 @@
 import { cIC, rIC } from "./idleCbWithPolyfill";
 import { createQueueMicrotask } from "./queueMicrotask";
-import { isBrowser, isSafari } from "./utils/env";
-import { now } from "./utils/now";
+import { isBrowser, isSafari } from "./env";
+import { now } from "./now";
 
 interface VoidFunction {
   (): void;
